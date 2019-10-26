@@ -4,8 +4,16 @@ What if you could stand up 50 EC2 instances to each take a small part of the wor
 
 ## What do I need to get started?
 An AWS account
+Terraform
 
-Yes, thats it! The scripts contained here set up Terraform for you, configure the EC2 instances and setup the S3 bucket for you.
+Yes, thats it! The scripts contained here configure the EC2 instances and setup the S3 bucket for you.
+
+### Getting Started
+1. Download and install Terraform for your platform. https://www.vasos-koupparis.com/terraform-getting-started-install/
+2. Create an AWS account if you don't already have one.
+3. Install AWS cli and run AWS Configure https://docs.amazonaws.cn/en_us/cli/latest/userguide/cli-chap-install.html
+
+
 
 ## Other Platforms
 Currently, the Terraform module here is based on AWS. GCP's free Tier is much more generous so if you want to learn Terraform, use the AWS module here as template to create a GCP Terraform module, PR's are welcome :) 
