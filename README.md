@@ -4,6 +4,7 @@ What if you could stand up 50 EC2 instances to each take a small part of the wor
 
 ## What do I need to get started?
 An AWS account
+
 Terraform
 
 Yes, thats it! The scripts contained here configure the EC2 instances and setup the S3 bucket for you.
