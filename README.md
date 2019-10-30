@@ -3,9 +3,8 @@ Have you ever needed to scan 3 million hosts with masscan? What about running Ey
 What if you could stand up 50 EC2 instances to each take a small part of the work, have each of the instances spit the results to an S3 Bucket, and then spin down the instances. All while staying in the Free AWS Tier. This Terraform module lets you do that! 
 
 ## What do I need to get started?
-An AWS account
-
-Terraform
+- An AWS account
+- Terraform
 
 Yes, thats it! The scripts contained here configure the EC2 instances, kick the actions off and throw the results into an S3 bucket for you.
 
