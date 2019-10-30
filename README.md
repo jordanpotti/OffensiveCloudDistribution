@@ -7,7 +7,7 @@ An AWS account
 
 Terraform
 
-Yes, thats it! The scripts contained here configure the EC2 instances and setup the S3 bucket for you.
+Yes, thats it! The scripts contained here configure the EC2 instances, kick the actions off and throw the results into an S3 bucket for you.
 
 ### Getting Started
 1. Download and install Terraform for your platform. https://www.vasos-koupparis.com/terraform-getting-started-install/
@@ -19,6 +19,9 @@ Yes, thats it! The scripts contained here configure the EC2 instances and setup 
 7. `terraform apply` ; You will need to enter a couple values here such as how many instances, the host name, the IP you want to SSH into the instances with and a line delimeted list of IP's to scan.
 8. The results will give you the IP, as well as the Private SSH key. Copy this key into a `.pem` file to SSH into the servers.
 9. The results of the scan (Or custom action specified by you) will end up in a randomly named S3 Bucket. Download the files placed ther from the scan before you run `terraform destroy` since this will destroy your S3 bucket as well.
+
+### Troubleshooting
+To verify a scan kicked off, or troubleshoot an action, SSH into one of your servers and run `tail -f /var/log/cloud-init-output.log`, that will also let you track the progress of your scans.
 
 
 
