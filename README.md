@@ -14,7 +14,7 @@ Yes, thats it! The scripts contained here configure the EC2 instances and setup 
 2. Create an AWS account if you don't already have one.
 3. Retrieve the AWS access and secret keys
 4. `git clone https://github.com/jordanpotti/OffensiveCloudDistribution`
-5. `cd OffensiveCloudDistribution`
+5. `cd OffensiveCloudDistribution/aws_tf`
 6. `terraform init`
 7. `terraform apply` ; You will need to enter a couple values here such as how many instances, the host name, the IP you want to SSH into the instances with and so on.
 8. The results will give you the IP, as well as the Private SSH key. Copy this key into a `.pem` file to SSH into the servers.
