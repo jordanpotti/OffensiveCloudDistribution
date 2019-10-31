@@ -9,9 +9,11 @@ A template to get you started splitting lists of hosts to scan:
 ```
 /snap/bin/aws s3 cp s3://${s3_bucket}/${scan_list} .
 
-curl https://github.com/jordanpotti/splitter/releases/download/Linux/splitter
+curl https://github.com/jordanpotti/splitter/releases/download/Linux/splitter -L --output splitter
 
-./splitter -target ${scan_list}
+chmod +x splitter
+
+./splitter -target ${scan_list} -number ${total}
 
 git clone <insert cool tool here>
 
