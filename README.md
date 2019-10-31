@@ -2,6 +2,8 @@
 Have you ever needed to scan 3 million hosts with masscan? What about running EyeWitness on 5k servers.. Without sacrificing accuracy, those things will take quite awhile! 
 What if you could stand up 50 EC2 instances to each take a small part of the work, have each of the instances spit the results to an S3 Bucket, and then spin down the instances. All while staying in the Free AWS Tier. This Terraform module lets you do that! 
 
+[@ok_bye_now](https://twitter.com/ok_bye_now)
+
 ## What do I need to get started?
 - An AWS account
 - Terraform
