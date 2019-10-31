@@ -19,6 +19,17 @@ Yes, thats it! The scripts contained here configure the EC2 instances, kick the 
 8. The results will give you the IP, as well as the Private SSH key. Copy this key into a `.pem` file to SSH into the servers.
 9. The results of the scan (Or custom action specified by you) will end up in a randomly named S3 Bucket. Download the files placed there from the scan before you run `terraform destroy` since this will destroy your S3 bucket as well.
 
+To bypass the module  asking for variables, simply add a `terraform.tfvars` file in the `aws_tf` directory to add the values, eg:
+
+```
+secret_key = ""
+access_key = ""
+scan_list = ""
+instance_count = ""
+allow_ingress = ""
+host_name = ""
+```
+
 ### Troubleshooting
 To verify a scan kicked off, or troubleshoot an action, SSH into one of your servers and run `tail -f /var/log/cloud-init-output.log`, that will also let you track the progress of your scans.
 
