@@ -20,5 +20,5 @@ variable "instance_count" {
 
 
 variable "scan_list" {
-  description = "List of IP's to scan"
+  description = "List of IP's to scan (Enter file name here)"
 }
