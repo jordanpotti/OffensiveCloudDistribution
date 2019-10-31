@@ -18,7 +18,7 @@ data "template_file" "init" {
   count = "${var.instance_count}"
   template = "${file("action_run.tpl")}"
   vars = {
-    count = "${count.index + 1}"
+    count = "${count.index}"
     total = "${var.instance_count}"
     s3_bucket = "${random_id.s3.hex}"
     scan_list = "${var.scan_list}"
