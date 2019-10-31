@@ -13,7 +13,7 @@ curl https://github.com/jordanpotti/splitter/releases/download/Linux/splitter -L
 
 chmod +x splitter
 
-./splitter -target ${scan_list} -number ${total}
+./splitter -target ${scan_list} -numb ${total}
 
 git clone <insert cool tool here>
 
