@@ -5,7 +5,7 @@ What if you could stand up 50 EC2 instances to each take a small part of the wor
 [@ok_bye_now](https://twitter.com/ok_bye_now)
 
 ## What do I need to get started?
-- An AWS account
+- An AWS or GCP account
 - Terraform
 
 Yes, thats it! The scripts contained here configure the EC2 instances, kick the actions off and throw the results into an S3 bucket for you.
@@ -41,6 +41,7 @@ To verify a scan kicked off, or troubleshoot an action, SSH into one of your ser
 Currently, the Terraform module here is based on AWS. GCP's free Tier is much more generous so if you want to learn Terraform, use the AWS module here as template to create a GCP Terraform module, PR's are welcome :) 
 
 ## Disclaimer:
-Please be aware of the AWS Free Tier rules. Using instances that qualify for the free tier, you can utilize 750 hours per month. By modifying certain pieces of the Terraform module (Like changing the instance size), and not destroying the AWS resources after your job is done, you will likely incur hefty AWS charges.
-https://aws.amazon.com/free/terms/
+Please be aware of the AWS and GCP Free Tier rules. Using instances that qualify for the free tier, you can utilize 750 hours per month. By modifying certain pieces of the Terraform module (Like changing the instance size), and not destroying resources after your job is done, you will likely incur hefty charges.
 
+* https://aws.amazon.com/free/terms/
+* https://cloud.google.com/free/docs/gcp-free-tier
