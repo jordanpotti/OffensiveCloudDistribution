@@ -11,6 +11,7 @@ What if you could stand up 50 EC2 instances to each take a small part of the wor
 Yes, thats it! The scripts contained here configure the EC2 instances, kick the actions off and throw the results into an S3 bucket for you.
 
 ### Getting Started
+
 1. Download and install Terraform for your platform. https://www.vasos-koupparis.com/terraform-getting-started-install/
 2. Create an AWS account if you don't already have one.
 3. Retrieve the AWS access and secret keys
@@ -21,7 +22,9 @@ Yes, thats it! The scripts contained here configure the EC2 instances, kick the 
 8. The results will give you the IP, as well as the Private SSH key. Copy this key into a `.pem` file to SSH into the servers.
 9. The results of the scan (Or custom action specified by you) will end up in a randomly named S3 Bucket. Download the files placed there from the scan before you run `terraform destroy` since this will destroy your S3 bucket as well.
 
-To bypass the module  asking for variables, simply add a `terraform.tfvars` file in the `aws_tf` directory to add the values, eg:
+#### For GCP instructions, check out the `readme` located in the `gcp_tf` directory
+
+To bypass the module  asking for variables, simply add a `terraform.tfvars` file in the `aws_tf` or `gcp_tf` directory to add the values, eg:
 
 ```
 secret_key = ""
@@ -32,13 +35,9 @@ allow_ingress = ""
 host_name = ""
 ```
 
-### Troubleshooting
-To verify a scan kicked off, or troubleshoot an action, SSH into one of your servers and run `tail -f /var/log/cloud-init-output.log`, that will also let you track the progress of your scans.
-
-
 
 ## Other Platforms
-Currently, the Terraform module here is based on AWS. GCP's free Tier is much more generous so if you want to learn Terraform, use the AWS module here as template to create a GCP Terraform module, PR's are welcome :) 
+Currently, the Terraform module here is based on AWS and GCP, PR's are welcome :) 
 
 ## Disclaimer:
 Please be aware of the AWS and GCP Free Tier rules. Using instances that qualify for the free tier, you can utilize 750 hours per month. By modifying certain pieces of the Terraform module (Like changing the instance size), and not destroying resources after your job is done, you will likely incur hefty charges.
