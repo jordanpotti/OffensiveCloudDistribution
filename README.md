@@ -4,6 +4,8 @@ What if you could stand up 50 EC2 instances to each take a small part of the wor
 
 [@ok_bye_now](https://twitter.com/ok_bye_now)
 
+[@thesubtlety](https://twitter.com/thesubtlety)
+
 ## What do I need to get started?
 - An AWS or GCP account
 - Terraform
@@ -11,6 +13,8 @@ What if you could stand up 50 EC2 instances to each take a small part of the wor
 Yes, thats it! The scripts contained here configure the EC2 instances, kick the actions off and throw the results into an S3 bucket for you.
 
 ### Getting Started
+
+#### AWS Instructions
 
 1. Download and install Terraform for your platform. https://www.vasos-koupparis.com/terraform-getting-started-install/
 2. Create an AWS account if you don't already have one.
@@ -23,6 +27,8 @@ Yes, thats it! The scripts contained here configure the EC2 instances, kick the 
 9. The results of the scan (Or custom action specified by you) will end up in a randomly named S3 Bucket. Download the files placed there from the scan before you run `terraform destroy` since this will destroy your S3 bucket as well.
 
 #### For GCP instructions, check out the `readme` located in the `gcp_tf` directory
+
+## Note
 
 To bypass the module  asking for variables, simply add a `terraform.tfvars` file in the `aws_tf` or `gcp_tf` directory to add the values, eg:
 
