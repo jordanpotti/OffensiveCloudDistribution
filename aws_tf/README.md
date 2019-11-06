@@ -23,3 +23,5 @@ cd <insert cool tool here>
 
 /snap/bin/aws s3 cp ${count}.out s3://${s3_bucket}/${count}.out
 ```
+### Troubleshooting
+To verify a scan kicked off, or troubleshoot an action, SSH into one of your servers and run `tail -f /var/log/cloud-init-output.log`, that will also let you track the progress of your scans.
