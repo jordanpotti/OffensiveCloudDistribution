@@ -7,7 +7,7 @@ or, if you're using a service account
 
 Make any modifications to the `variables.tf` and `action_run.tpl` files. No changes are required, but note the region and zone are defaulted to `us-central1-a`, there are no restrictions on which IPs can access port 22 on the created, and instances are created without oauth scope restrictions.
 
-Run `terraform apply`.
+Run `terraform init && terraform apply`.
 
 To destroy, run `terraform destroy`
 
