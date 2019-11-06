@@ -22,7 +22,7 @@ Yes, thats it! The scripts contained here configure the EC2 instances, kick the 
 4. `git clone https://github.com/jordanpotti/OffensiveCloudDistribution`
 5. `cd OffensiveCloudDistribution/aws_tf`
 6. `terraform init`
-7. `terraform apply` ; You will need to enter a couple values here such as how many instances, the host name, the IP you want to SSH into the instances with and a line delimeted list of IP's to scan.
+7. `terraform apply` ; You will need to enter a couple values here such as how many instances, the host name, the IP you want to SSH into the instances with and a line delimited list of IP's to scan.
 8. The results will give you the IP, as well as the Private SSH key. Copy this key into a `.pem` file to SSH into the servers.
 9. The results of the scan (Or custom action specified by you) will end up in a randomly named S3 Bucket. Download the files placed there from the scan before you run `terraform destroy` since this will destroy your S3 bucket as well.
 
