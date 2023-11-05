@@ -100,7 +100,7 @@ resource "aws_s3_bucket_acl" "scanning_storage_acl" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
-  bucket = aws_s3_bucket.bucket-one-two.id
+  bucket = aws_s3_bucket.scanning_storage.id
   rule {
     object_ownership = "ObjectWriter"
   }
