@@ -83,7 +83,7 @@ resource "aws_instance" "vm-ubuntu" {
   source_dest_check           = false
   vpc_security_group_ids      = [aws_security_group.sg-ubuntu.id]
   depends_on = [
-  aws_key_pair.temp_key
+  aws_key_pair.generated_key
   ]
 }
 
