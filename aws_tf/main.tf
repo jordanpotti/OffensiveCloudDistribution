@@ -89,28 +89,33 @@ resource "random_id" "s3" {
 }
 
 resource "aws_s3_bucket" "scanning_storage" {
-  bucket        = "${random_id.s3.hex}"
+  bucket        = random_id.s3.hex
   force_destroy = true
 }
 
 resource "aws_s3_bucket_acl" "scanning_storage_acl" {
   bucket = aws_s3_bucket.scanning_storage.id
   acl    = "private"
-  
 }
 
-resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+resource "aws_s3_bucket_ownership_controls" "scanning_storage_ownership" {
   bucket = aws_s3_bucket.scanning_storage.id
   rule {
-    object_ownership = "ObjectWriter"
+    object_ownership = "BucketOwnerPreferred"
   }
 }
+
 resource "aws_s3_object" "object" {
   bucket = random_id.s3.hex
   key    = var.scan_list
   source = var.scan_list
-  depends_on = [aws_s3_bucket.scanning_storage]
+  depends_on = [
+    aws_s3_bucket.scanning_storage,
+    aws_s3_bucket_acl.scanning_storage_acl,
+    aws_s3_bucket_ownership_controls.scanning_storage_ownership
+  ]
 }
+
 # UBUNTU SECURITY GROUP
 resource "aws_security_group" "sg-ubuntu" {
   name        = "sg_${var.host_name}"
