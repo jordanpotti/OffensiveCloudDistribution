@@ -96,6 +96,14 @@ resource "aws_s3_bucket" "scanning_storage" {
 resource "aws_s3_bucket_acl" "scanning_storage_acl" {
   bucket = aws_s3_bucket.scanning_storage.id
   acl    = "private"
+  
+}
+
+resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+  bucket = aws_s3_bucket.bucket-one-two.id
+  rule {
+    object_ownership = "ObjectWriter"
+  }
 }
 resource "aws_s3_object" "object" {
   bucket = random_id.s3.hex
