@@ -89,8 +89,12 @@ resource "random_id" "s3" {
 }
 
 resource "aws_s3_bucket" "scanning_storage" {
-  bucket = "${random_id.s3.hex}"
+  bucket        = "${random_id.s3.hex}"
   force_destroy = true
+}
+
+resource "aws_s3_bucket_acl" "scanning_storage_acl" {
+  bucket = aws_s3_bucket.scanning_storage.id
   acl    = "private"
 }
 resource "aws_s3_bucket_object" "object" {
