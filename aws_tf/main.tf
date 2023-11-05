@@ -98,10 +98,10 @@ resource "aws_s3_bucket_acl" "scanning_storage_acl" {
   bucket = aws_s3_bucket.scanning_storage.id
   acl    = "private"
 }
-resource "aws_s3_bucket_object" "object" {
-  bucket = "${random_id.s3.hex}"
-  key    = "${var.scan_list}"
-  source = "${var.scan_list}"
+resource "aws_s3_object" "object" {
+  bucket = random_id.s3.hex
+  key    = var.scan_list
+  source = var.scan_list
   depends_on = [aws_s3_bucket.scanning_storage]
 }
 # UBUNTU SECURITY GROUP
