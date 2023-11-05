@@ -12,7 +12,6 @@ resource "tls_private_key" "temp_key" {
 resource "aws_key_pair" "generated_key" {
   key_name   = "temp_key"
   public_key = "${tls_private_key.temp_key.public_key_openssh}"
-  sensitive = true
 }
 
 data "template_file" "init" {
