@@ -111,7 +111,6 @@ resource "aws_s3_object" "object" {
   source = var.scan_list
   depends_on = [
     aws_s3_bucket.scanning_storage,
-    aws_s3_bucket_acl.scanning_storage_acl,
     aws_s3_bucket_ownership_controls.scanning_storage_ownership
   ]
 }
