@@ -96,10 +96,7 @@ resource "aws_s3_bucket" "scanning_storage" {
   force_destroy = true
 }
 
-resource "aws_s3_bucket_acl" "scanning_storage_acl" {
-  bucket = aws_s3_bucket.scanning_storage.id
-  acl    = "private"
-}
+
 
 resource "aws_s3_bucket_ownership_controls" "scanning_storage_ownership" {
   bucket = aws_s3_bucket.scanning_storage.id
