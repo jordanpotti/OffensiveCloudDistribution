@@ -7,12 +7,12 @@ apt install build-essential -y
 
 snap install aws-cli --classic
 
-sudo apt-get install git gcc make libpcap-dev
+sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
 cd masscan
 make -j
 
-apt install nmap
+apt install nmap -y
 # Format the date as 'YYYY-MM-DD'
 
 /snap/bin/aws s3 cp s3://${s3_bucket}/${scan_list} .
