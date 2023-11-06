@@ -7,7 +7,7 @@ apt install build-essential -y
 apt install python-pip -y
 snap install aws-cli --classic
 pip install yq
-apt install jq
+apt install jq -y
 sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
 cd masscan
