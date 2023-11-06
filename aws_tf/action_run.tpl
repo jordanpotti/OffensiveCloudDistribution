@@ -28,7 +28,7 @@ sudo ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
 sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oG masscan_results.txt --shard ${count}/${total} --seed 10
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=: read -r ip port; do
-    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse  -P0 -oN "nmap_results_$ip.txt"
+    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse  -P0 -oJ "nmap_results_$ip.txt"
 done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
