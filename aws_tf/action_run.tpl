@@ -4,9 +4,10 @@
 apt update -y 
 apt install git -y
 apt install build-essential -y
-
+apt install python-pip -y
 snap install aws-cli --classic
-
+pip install yq
+apt install jq
 sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
 cd masscan
@@ -28,11 +29,12 @@ sudo ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
 sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oG masscan_results.txt --shard ${count}/${total} --seed 10
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=: read -r ip port; do
-    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse  -P0 -oX "nmap_results_$ip.xml"
+    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse --script-args vulscandb=cve.csv -P0 -oX "nmap_results_$ip.xml"
+    sudo cat "nmap_results_$ip.xml" | xq >> "nmap_results_$ip.json"
 done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
-for file in nmap_results_*.txt; do
+for file in nmap_results_*.json; do
     /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/$(date +%F)/"$file"
 done
 
