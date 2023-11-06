@@ -14,7 +14,7 @@ make -j
 
 
 # Format the date as 'YYYY-MM-DD'
-s3_folder_name=$(date +%F)
+
 /snap/bin/aws s3 cp s3://${s3_bucket}/${scan_list} .
 
 # do only port scan no banner grabbing, output to binary file
@@ -29,7 +29,7 @@ done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
 for file in nmap_results_*.txt; do
-    /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/${s3_folder_name}/"$file"
+    /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/$(date +%F)/"$file"
 done
 
 # upload results to s3 (bin)
