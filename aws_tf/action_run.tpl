@@ -15,16 +15,20 @@ make -j
 apt install nmap -y
 # Format the date as 'YYYY-MM-DD'
 
+sudo git clone https://github.com/scipag/vulscan scipag_vulscan
+sudo ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
+
+
 /snap/bin/aws s3 cp s3://${s3_bucket}/${scan_list} .
 
 # do only port scan no banner grabbing, output to binary file
-sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oB results-${count}.masscan.bin --shard ${count}/${total} --seed 10
+#sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oB results-${count}.masscan.bin --shard ${count}/${total} --seed 10
 
 # same, but output -oG masscan_results.txt, and run nmap on the results
 sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oG masscan_results.txt --shard ${count}/${total} --seed 10
-awk '/open/ {print $2":"$4}' masscan_results.txt | sed 's|/tcp||g' > nmap_targets.txt
+awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=: read -r ip port; do
-    sudo nmap -sV -p $port $ip --script=banner -oN "nmap_results_$ip.txt"
+    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse  -P0 -oN "nmap_results_$ip.txt"
 done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
