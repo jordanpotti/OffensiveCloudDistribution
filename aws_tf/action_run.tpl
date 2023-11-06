@@ -30,11 +30,10 @@ sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/e
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=: read -r ip port; do
     sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse --script-args vulscandb=cve.csv -P0 -oX "nmap_results_$ip.xml"
-    sudo cat "nmap_results_$ip.xml" | xq >> "nmap_results_$ip.json"
 done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
-for file in nmap_results_*.json; do
+for file in nmap_results_*.xml; do
     /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/$(date +%F)/"$file"
 done
 
