@@ -33,7 +33,8 @@ while IFS=: read -r ip port; do
 #    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse --script-args vulscandb=cve.csv -P0 -oX "nmap_results_$ip.xml"
 
 # for banner grabbing only
-sudo nmap -sV -p $port $ip -script=banner -P0 -oX "nmap_results_$ip.xml"
+# nmap -sV -p80 -P0 -script=banner 188.114.97.7 -oX test.xml
+sudo nmap -sV -p $port -P0 -script=banner $ip -oX "nmap_results_$ip.xml"
 done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
