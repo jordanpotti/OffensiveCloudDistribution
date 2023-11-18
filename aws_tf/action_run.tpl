@@ -30,8 +30,8 @@ sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/e
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=: read -r ip port; do
 
-temp_file="temp_nmap_$ip.xml"
-result_file="nmap_results_$ip.xml"
+temp_file="temp_nmap_$ip_$port.xml"
+result_file="nmap_results_$ip_$port.xml"
 
 # Perform the nmap scan and output to a temporary file
 sudo nmap -p $port -Pn -T4 --open --script http-headers,http-title --script-args http.useragent="A friendly web crawler (http://calderonpale.com)",http-headers.useget $ip -oX "$temp_file"
