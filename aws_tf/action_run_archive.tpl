@@ -1,5 +1,5 @@
 #!/bin/bash 
-# This makes and runs masscan, nmap, and whatwaf
+# This makes and runs masscan, use it for whatever you would like though. 
 
 apt update -y 
 apt install git -y
@@ -29,21 +29,12 @@ sudo ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
 sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oG masscan_results.txt --shard ${count}/${total} --seed 10
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=: read -r ip port; do
+# for banner grabbing + passive vuln detection
+#    sudo nmap -sV -p $port $ip --script=vulscan/vulscan.nse --script-args vulscandb=cve.csv -P0 -oX "nmap_results_$ip.xml"
 
-temp_file="temp_nmap_$ip.xml"
-result_file="nmap_results_$ip.xml"
-
-# Perform the nmap scan and output to a temporary file
-sudo nmap -p $port -Pn -T4 --open --script http-headers,http-title --script-args http.useragent="A friendly web crawler (http://calderonpale.com)",http-headers.useget $ip -oX "$temp_file"
-
-# Check if grep finds 'http-headers', and if so, save to the final file
-if grep -q "| http-headers:" "$temp_file"; then
-    grep "| http-headers:" "$temp_file" > "$result_file"
-fi
-
-# Optionally, remove the temporary file
-rm "$temp_file"
-
+# for banner grabbing only (for rescana)
+# nmap -sV -p80 -P0 -script=banner 188.114.97.7 -oX test.xml
+sudo nmap -sV -p $port -P0 -script=banner $ip -oX "nmap_results_$ip.xml"
 done < nmap_targets.txt
 
 # upload results to s3 (txt) folder is date
@@ -54,3 +45,6 @@ done
 # upload results to s3 (bin)
 #/snap/bin/aws s3 cp results-${count}.masscan.bin s3://${s3_bucket}/results-${count}.masscan.bin
 
+
+
+ 
