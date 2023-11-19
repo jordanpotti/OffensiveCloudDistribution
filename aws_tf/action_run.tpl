@@ -8,10 +8,9 @@ apt install python3-pip -y
 snap install aws-cli --classic
 # pip install yq
 # apt install jq -y
-git clone https://github.com/Ekultek/WhatWaf.git
-cd WhatWaf
-sudo pip install -r requirements.txt
-echo root | python3 setup.py install
+git clone https://github.com/EnableSecurity/wafw00f.git
+cd wafw00f
+python3 setup.py install
 cd /
 sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
@@ -54,8 +53,8 @@ rm "$temp_file"
 done < nmap_targets.txt
 
 # next step - run whatwaf on the results   
-sh -c "yes no | whatwaf --skip -t 5 -F -C -l /masscan/whatwaf_targets.txt -o /masscan/vm${count}_wwres.csv"
-
+#sh -c "yes no | whatwaf --skip -t 5 -F -C -l /masscan/whatwaf_targets.txt -o /masscan/vm${count}_wwres.csv" # didn't work due to tool prompting
+wafw00f -i whatwaf_targets.txt -o wafwoof.csv
 
 # upload results to s3 (txt) folder is date
 # for file in nmap_results_*.xml; do
@@ -63,7 +62,7 @@ sh -c "yes no | whatwaf --skip -t 5 -F -C -l /masscan/whatwaf_targets.txt -o /ma
 
 # done
 
-/snap/bin/aws s3 cp whatwaf_results.txt s3://${s3_bucket}/$(date +%F)/whatwaf_results.txt
+/snap/bin/aws s3 cp wafwoof.csv s3://${s3_bucket}/$(date +%F)/wafwoof.csv
 # upload results to s3 (bin)
 #/snap/bin/aws s3 cp results-${count}.masscan.bin s3://${s3_bucket}/results-${count}.masscan.bin
 
