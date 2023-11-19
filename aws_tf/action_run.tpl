@@ -4,7 +4,7 @@
 apt update -y 
 apt install git -y
 apt install build-essential -y
-apt install python-pip -y
+apt install python3-pip -y
 snap install aws-cli --classic
 # pip install yq
 # apt install jq -y
