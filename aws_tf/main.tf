@@ -76,12 +76,15 @@ resource "aws_instance" "vm-ubuntu" {
   iam_instance_profile = "${aws_iam_instance_profile.temp_profile.name}"
   count         = "${var.instance_count}"
   user_data = "${element(data.template_file.init.*.rendered, count.index)}"
-  ami                         = "ami-04b9e92b5572fa0d1"
+  ami                         = "ami-0fc5d935ebf8bc3bc" # now ubuntu 22.04   # was "ami-04b9e92b5572fa0d1"
   instance_type               = "t2.micro"
   key_name                    = "temp_key"
   associate_public_ip_address = true
   source_dest_check           = false
   vpc_security_group_ids      = [aws_security_group.sg-ubuntu.id]
+  depends_on = [
+  aws_key_pair.generated_key
+  ]
 }
 
 resource "random_id" "s3" {
@@ -89,16 +92,29 @@ resource "random_id" "s3" {
 }
 
 resource "aws_s3_bucket" "scanning_storage" {
-  bucket = "${random_id.s3.hex}"
+  bucket        = random_id.s3.hex
   force_destroy = true
-  acl    = "private"
 }
-resource "aws_s3_bucket_object" "object" {
-  bucket = "${random_id.s3.hex}"
-  key    = "${var.scan_list}"
-  source = "${var.scan_list}"
-  depends_on = [aws_s3_bucket.scanning_storage]
+
+
+
+resource "aws_s3_bucket_ownership_controls" "scanning_storage_ownership" {
+  bucket = aws_s3_bucket.scanning_storage.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
 }
+
+resource "aws_s3_object" "object" {
+  bucket = aws_s3_bucket.scanning_storage.id
+  key    = var.scan_list
+  source = var.scan_list
+  depends_on = [
+    aws_s3_bucket.scanning_storage,
+    aws_s3_bucket_ownership_controls.scanning_storage_ownership
+  ]
+}
+
 # UBUNTU SECURITY GROUP
 resource "aws_security_group" "sg-ubuntu" {
   name        = "sg_${var.host_name}"
