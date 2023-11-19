@@ -36,7 +36,7 @@ sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/e
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
 while IFS=":" read -r ip port; do
 
-temp_file=temp_file="temp_nmap_$ip-$port.xml"
+temp_file="temp_nmap_$ip-$port.xml"
 result_file="nmap_results_$ip-$port.xml"
 
 # Perform the nmap scan and output to a temporary file
