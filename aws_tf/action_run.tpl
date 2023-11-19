@@ -62,7 +62,7 @@ wafw00f -i whatwaf_targets.txt -o wafwoof.csv
 
 # done
 
-/snap/bin/aws s3 cp wafwoof.csv s3://${s3_bucket}/$(date +%F)/wafwoof.csv
+/snap/bin/aws s3 cp wafwoof.csv s3://${s3_bucket}/$(date +%F)/results-${count}-wafwoof.csv
 # upload results to s3 (bin)
 #/snap/bin/aws s3 cp results-${count}.masscan.bin s3://${s3_bucket}/results-${count}.masscan.bin
 
