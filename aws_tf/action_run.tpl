@@ -11,7 +11,7 @@ snap install aws-cli --classic
 git clone https://github.com/Ekultek/WhatWaf.git
 cd WhatWaf
 sudo pip install -r requirements.txt
-echo root | python setup.py install
+echo root | python3 setup.py install
 cd /
 sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
@@ -43,30 +43,27 @@ result_file="nmap_results_$ip-$port.xml"
 sudo nmap -p $port -Pn -T4 --open --script http-headers,http-title --script-args http.useragent="A friendly web crawler (https://rescana.com)",http-headers.useget $ip -oX $temp_file
 
 # Check if grep finds 'http-headers', and if so, save to the final file
-if grep -q "output=" "$temp_file"; then
-    grep "output=" "$temp_file" > "$result_file"
+if grep -q "output=" "$temp_file"; then # this pattern finds ips with http/s
+        echo "http://$ip:$port" >> whatwaf_targets.txt
+        echo "https://$ip:$port" >> whatwaf_targets.txt
 fi
 
 # Optionally, remove the temporary file
-#rm "$temp_file"
+rm "$temp_file"
 
 done < nmap_targets.txt
 
-# parse the ip and port from the results files, put each in a new whatwaf target file twice, once with  "http://" and once with "https://" in the begning and add the port number to the ip address so we get a valid url
-while IFS=: read -r ip port; do
-    echo "http://$ip:$port" >> whatwaf_targets.txt
-    echo "https://$ip:$port" >> whatwaf_targets.txt
-done < nmap_results_*.xml   ## this is probably wrong fix from here!!!!!!!
-
 # next step - run whatwaf on the results   
-python whatwaf.py -t whatwaf_targets.txt -r whatwaf_results.txt
+python3 whatwaf.py -t whatwaf_targets.txt -r whatwaf_results.txt
 
 
 # upload results to s3 (txt) folder is date
 for file in nmap_results_*.xml; do
     /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/$(date +%F)/"$file"
+
 done
 
+/snap/bin/aws s3 cp whatwaf_results.txt s3://${s3_bucket}/$(date +%F)/whatwaf_results.txt
 # upload results to s3 (bin)
 #/snap/bin/aws s3 cp results-${count}.masscan.bin s3://${s3_bucket}/results-${count}.masscan.bin
 
