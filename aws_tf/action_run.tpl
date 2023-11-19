@@ -54,14 +54,14 @@ rm "$temp_file"
 done < nmap_targets.txt
 
 # next step - run whatwaf on the results   
-python3 whatwaf.py -t whatwaf_targets.txt -r whatwaf_results.txt
+yes no | whatwaf --skip -t 5 -F -C -l /masscan/whatwaf_targets.txt -o /masscan/vm${count}_wwres.csv
 
 
 # upload results to s3 (txt) folder is date
-for file in nmap_results_*.xml; do
-    /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/$(date +%F)/"$file"
+# for file in nmap_results_*.xml; do
+#     /snap/bin/aws s3 cp "$file" s3://${s3_bucket}/$(date +%F)/"$file"
 
-done
+# done
 
 /snap/bin/aws s3 cp whatwaf_results.txt s3://${s3_bucket}/$(date +%F)/whatwaf_results.txt
 # upload results to s3 (bin)
