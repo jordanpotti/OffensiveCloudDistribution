@@ -12,7 +12,7 @@ git clone https://github.com/Ekultek/WhatWaf.git
 cd WhatWaf
 sudo pip install -r requirements.txt
 echo root | python setup.py install
-
+cd /
 sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
 cd masscan
