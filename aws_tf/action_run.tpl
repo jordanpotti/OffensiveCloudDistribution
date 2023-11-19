@@ -54,7 +54,7 @@ rm "$temp_file"
 done < nmap_targets.txt
 
 # next step - run whatwaf on the results   
-yes no | whatwaf --skip -t 5 -F -C -l /masscan/whatwaf_targets.txt -o /masscan/vm${count}_wwres.csv
+sh -c "yes no | whatwaf --skip -t 5 -F -C -l /masscan/whatwaf_targets.txt -o /masscan/vm${count}_wwres.csv"
 
 
 # upload results to s3 (txt) folder is date
