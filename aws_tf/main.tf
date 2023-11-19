@@ -76,7 +76,7 @@ resource "aws_instance" "vm-ubuntu" {
   iam_instance_profile = "${aws_iam_instance_profile.temp_profile.name}"
   count         = "${var.instance_count}"
   user_data = "${element(data.template_file.init.*.rendered, count.index)}"
-  ami                         = "ami-04b9e92b5572fa0d1"
+  ami                         = "ami-0fc5d935ebf8bc3bc" # now ubuntu 22.04   # was "ami-04b9e92b5572fa0d1"
   instance_type               = "t2.micro"
   key_name                    = "temp_key"
   associate_public_ip_address = true
