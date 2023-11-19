@@ -48,7 +48,7 @@ if grep -q "| http-headers:" "$temp_file"; then
 fi
 
 # Optionally, remove the temporary file
-rm "$temp_file"
+#rm "$temp_file"
 
 done < nmap_targets.txt
 
