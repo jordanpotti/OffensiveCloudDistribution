@@ -8,6 +8,11 @@ apt install python-pip -y
 snap install aws-cli --classic
 # pip install yq
 # apt install jq -y
+git clone https://github.com/Ekultek/WhatWaf.git
+cd WhatWaf
+sudo pip install -r requirements.txt
+echo root | python setup.py install
+
 sudo apt-get install git gcc make libpcap-dev -y
 git clone https://github.com/robertdavidgraham/masscan
 cd masscan
@@ -26,15 +31,16 @@ sudo ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan
 #sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oB results-${count}.masscan.bin --shard ${count}/${total} --seed 10
 
 # same, but output -oG masscan_results.txt, and run nmap on the results
+echo 'shards - ${count}/${total} '
 sudo bin/masscan --top-ports 50 -iL ${scan_list} --rate 500 --excludefile data/exclude.conf -oG masscan_results.txt --shard ${count}/${total} --seed 10
 awk '/open/ {split($7,a,"/"); print $4":"a[1]}' masscan_results.txt > nmap_targets.txt
-while IFS=: read -r ip port; do
+while IFS=":" read -r ip port; do
 
-temp_file="temp_nmap_$ip_$port.xml"
-result_file="nmap_results_$ip_$port.xml"
+temp_file=temp_file="temp_nmap_$ip-$port.xml"
+result_file="nmap_results_$ip-$port.xml"
 
 # Perform the nmap scan and output to a temporary file
-sudo nmap -p $port -Pn -T4 --open --script http-headers,http-title --script-args http.useragent="A friendly web crawler (http://calderonpale.com)",http-headers.useget $ip -oX "$temp_file"
+sudo nmap -p $port -Pn -T4 --open --script http-headers,http-title --script-args http.useragent="A friendly web crawler (https://rescana.com)",http-headers.useget $ip -oX $temp_file
 
 # Check if grep finds 'http-headers', and if so, save to the final file
 if grep -q "| http-headers:" "$temp_file"; then
@@ -45,6 +51,16 @@ fi
 rm "$temp_file"
 
 done < nmap_targets.txt
+
+# parse the ip and port from the results files, put each in a new whatwaf target file twice, once with  "http://" and once with "https://" in the begning and add the port number to the ip address so we get a valid url
+while IFS=: read -r ip port; do
+    echo "http://$ip:$port" >> whatwaf_targets.txt
+    echo "https://$ip:$port" >> whatwaf_targets.txt
+done < nmap_results_*.xml   ## this is probably wrong fix from here!!!!!!!
+
+# next step - run whatwaf on the results   
+python whatwaf.py -t whatwaf_targets.txt -r whatwaf_results.txt
+
 
 # upload results to s3 (txt) folder is date
 for file in nmap_results_*.xml; do
