@@ -43,8 +43,8 @@ result_file="nmap_results_$ip-$port.xml"
 sudo nmap -p $port -Pn -T4 --open --script http-headers,http-title --script-args http.useragent="A friendly web crawler (https://rescana.com)",http-headers.useget $ip -oX $temp_file
 
 # Check if grep finds 'http-headers', and if so, save to the final file
-if grep -q "| http-headers:" "$temp_file"; then
-    grep "| http-headers:" "$temp_file" > "$result_file"
+if grep -q "output=" "$temp_file"; then
+    grep "output=" "$temp_file" > "$result_file"
 fi
 
 # Optionally, remove the temporary file
